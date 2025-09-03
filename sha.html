@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHA-256 Hash Generator</title>
+</head>
+<body>
+    <h1>SHA-256 Hash Generator</h1>
+    <input type="text" id="inputText" placeholder="Enter text here" />
+    <button id="generateHash">Generate SHA-256 Hash</button>
+    <h2>Hash Result:</h2>
+    <p id="hashResult"></p>
+
+    <script>
+        async function generateSHA256Hash(message) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        document.getElementById('generateHash').addEventListener('click', async () => {
+            const inputText = document.getElementById('inputText').value;
+            const hash = await generateSHA256Hash(inputText);
+            document.getElementById('hashResult').textContent = hash;
+        });
+    </script>
+</body>
+</html>
