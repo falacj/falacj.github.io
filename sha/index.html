@@ -19,7 +19,7 @@
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const hashArray = Array.from(new Uint8Array(hashBuffer));
             const hashHex = hashArray.toSpliced(2).map(b => b.toString(16).padStart(2, '0')).join('');
-            return hashHex;
+            return hashHex.substring(0, 4);
         }
 
         document.getElementById('generateHash').addEventListener('click', async () => {
